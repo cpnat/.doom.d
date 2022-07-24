@@ -1,0 +1,344 @@
+#+TITLE: Emacs Configuration
+#+PROPERTY: header-args :tangle config.el
+
+This file (in conjunction with `org-babel-tangle`) is used to generate a
+`config.el` for Doom Emacs (https://github.com/doomemacs/doomemacs). Run a local refresh at the head of this file (CTRL-C CTRL-C) prior to tangling.
+
+Additionally, packages are managed in `packages.el` and some Doom specific initial configuration in `init.el`
+
+* Table of contents :TOC:
+- [[#elisp-scope][Elisp scope]]
+- [[#parameters][Parameters]]
+- [[#personal-details][Personal details]]
+- [[#ui][UI]]
+- [[#navigation][Navigation]]
+- [[#terminal][Terminal]]
+- [[#files][Files]]
+- [[#completion][Completion]]
+- [[#org-mode][Org-mode]]
+- [[#projects][Projects]]
+- [[#python][Python]]
+- [[#java][Java]]
+- [[#swift][Swift]]
+- [[#sql][SQL]]
+- [[#misc][Misc]]
+
+* Elisp scope
+
+Elisp uses dynamic scoping by default, however this comes with a performance penalty. Lexical scope is set with a file parameter.
+#+begin_src elisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+
+* Parameters
+
+#+begin_src elisp
+(require 'epa-file)
+(epa-file-enable)
+(load "~/.doom.d/parameters.el.gpg")
+#+end_src
+
+* Personal details
+
+#+begin_src elisp
+(setq user-full-name user-full-name-param
+      user-mail-address user-mail-address-param)
+#+end_src
+
+* UI  
+
+Theme.
+#+begin_src elisp
+(setq doom-theme 'doom-solarized-dark)
+#+end_src
+
+Fonts.
+#+begin_src elisp
+(setq doom-font (font-spec :family "Fira Code" :style "Retina" :size 14 :height 1.0)
+      doom-big-font (font-spec :family "Fira Code" :style "Retina" :size 28 :height 1.0))
+
+;;(setq doom-font (font-spec :family "Source Code Pro" :style "Regular" :size 14))
+;;      doom-variable-pitch-font (font-spec :family "ETBembo" :style "RomanLF" :size 18 :height 1.0))
+#+end_src
+
+Maximise Frame on startup.
+#+begin_src elisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
+Turn off unnecessary UI elements.
+#+begin_src elisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+#+end_src
+
+Set relative line numbers and display in every buffer.
+#+begin_src elisp
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+Set a custom splash image.
+#+begin_src elisp
+(setq fancy-splash-image (concat doom-private-dir "splash/I-am-doom-small.png"))
+#+end_src
+
+Flash the cursor following vertical or horizontal movement to increase visibility.
+#+begin_src elisp
+(require 'beacon)
+(beacon-mode 1)
+(setq beacon-blink-when-point-moves-horizontally 1)
+(setq beacon-blink-when-point-moves-vertically 1)
+(setq beacon-dont-blink-commands nil)
+#+end_src
+
+* Navigation
+
+Enable evil-snipe for quick horizontal movement.
+#+begin_src elisp
+(evil-snipe-mode +1)
+(evil-snipe-override-mode +1)
+(evil-define-key 'visual evil-snipe-local-mode-map "z" 'evil-snipe-s)
+(evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
+#+end_src
+
+Enable multiple cursors.
+#+begin_src elisp
+(require 'multiple-cursors)
+(global-set-key (kbd "C-c m c") 'mc/edit-lines)
+#+end_src
+
+Allow treemacs to be selected as other-window, for quick switching.
+#+begin_src elisp
+(setq treemacs-is-never-other-window nil)
+#+end_src
+
+Leader keymapping.
+#+begin_src elisp
+(map! :leader
+       (:prefix ("r" . "org-roam")
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Get random node" "r" #' org-roam-node-random))
+#+end_src
+
+* Terminal
+
+Multi-vterm is used to manage multiple vterm buffers simultaneously.
+#+begin_src elisp
+(use-package multi-vterm)
+#+end_src
+
+* Files
+
+Enable autosave.
+#+begin_src elisp
+(setq auto-save-default t
+      make-backup-files t)
+#+end_src
+
+Use fundamental mode for markdown files to improve performance.
+TODO: Create a function that dynamically sets the mode based upon file size.
+#+begin_src elisp
+;;(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+#+end_src
+
+* Completion
+
+Hunspell (https://hunspell.github.io/) is used for spellchecking and autocompletion. GNU Ispell/Aspell should not be installed.
+#+begin_src
+(require 'ispell)
+
+(add-to-list 'ispell-hunspell-dictionary-alist '("en_GB-hs"
+                                              "[[:alpha:]]"
+                                              "[^[:alpha:]]"
+                                              "[']"
+                                              t
+                                              ("-d" "en_GB")
+                                              nil
+                                              iso-8859-1))
+
+(add-to-list 'ispell-hunspell-dictionary-alist '("en_US-hs"
+                                              "[[:alpha:]]"
+                                              "[^[:alpha:]]"
+                                              "[']"
+                                              t
+                                              ("-d" "en_US")
+                                              nil
+                                                iso-8859-1))
+
+(add-to-list 'ispell-hunspell-dictionary-alist '("nb_NO-hs"
+                                              "[[:alpha:]]"
+                                              "[^[:alpha:]]"
+                                              "[']"
+                                              t
+                                              ("-d" "nb_NO")
+                                              nil
+                                              iso-8859-1))
+
+(setq ispell-program-name (concat bin-path-param "hunspell")    ; Use hunspell to correct mistakes
+      ispell-dictionary   "en_GB-hs")                            ; Default dictionary to use
+
+#+end_src
+
+Company mode with LSP support is used for code completion.
+#+begin_src elisp
+(require 'company-lsp)
+(push 'company-lsp company-backends)
+#+end_src
+
+Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/ for a guide on enabling/disabling LSP features.
+#+begin_src
+(setq lsp-lens-enable nil)
+#+end_src
+
+* Org-mode
+
+Note Clang/GCC, graphviz and pandoc are required external dependencies.
+
+Configuration for org.
+#+begin_src elisp
+(setq org-directory org-directory-param)
+(setq org-support-shift-select t)
+(setq org-startup-folded 'fold)
+#+end_src
+
+Configuration for org-roam.
+#+begin_src elisp
+(use-package org-roam
+  :after org
+  :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+  :custom
+  (org-roam-directory (file-truename org-roam-directory-param))
+  :config
+  (org-roam-setup)
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n r" . org-roam-node-random)
+           (:map org-mode-map
+            (("C-c n i" . org-roam-node-insert)
+             ("C-c n o" . org-id-get-create)
+             ("C-c n t" . org-roam-tag-add)
+             ("C-c n a" . org-roam-alias-add)
+             ("C-c n l" . org-roam-buffer-toggle)))))
+#+end_src
+
+* Projects
+
+Configuration for the project management tool Projectile.
+#+begin_src elisp
+(setq projectile-project-search-path projectile-project-search-path-param)
+#+end_src
+
+Magit is used as an interface to git. This configuration improves performance by refreshing only the current buffer and not the status buffer. See https://magit.vc/manual/magit/Performance.html for more performance improvement tips.
+#+begin_src elisp
+(setq magit-refresh-status-buffer nil)
+#+end_src
+
+* Python
+
+Configuration for Pyenv.
+#+begin_src elisp
+(use-package pyvenv
+  :ensure t
+  :init
+  (setenv "WORKON_HOME" pyenv-directory-param))
+
+(require 'pyenv-mode)
+#+end_src
+
+#+RESULTS:
+: pyenv-mode
+
+Activate a Pyenv environment with a matching name when switching to a Projectile project.
+#+begin_src elisp
+(defun projectile-pyenv-mode-set ()
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+#+end_src
+
+Configuration of Microsoft Language Server for LSP mode; including auto installation in the active Python environment.
+#+begin_src elisp
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred
+#+end_src
+
+Deprecated Anaconda configuration.
+#+begin_src elisp
+;; CONDA
+;;(require 'conda)
+;;(setq conda-env-home-directory "$CASKROOM-PATH-PARAM/miniconda/base/condabin/conda")
+;;(custom-set-variables
+;; '(conda-anaconda-home "$CASKROOM-PATH-PARAM/miniconda/base/"))
+;;(conda-env-initialize-interactive-shells)
+;;(conda-env-initialize-eshell)
+#+end_src
+
+* Java
+
+Enable Eclipse LSP for Java. Requires installation of the JDK.
+#+begin_src elisp
+(use-package lsp-java
+:ensure t
+:config (add-hook 'java-mode-hook 'lsp))
+
+(setenv "JAVA_HOME" java-home-param)
+(setq lsp-java-java-path lsp-java-java-path-param)
+#+end_src
+
+* Swift
+
+Enable Swift mode with Apple Sourcekit LSP. Requires installation of XCode.
+#+begin_src elisp
+(use-package lsp-sourcekit
+  :after lsp-mode
+  :config
+  (setq lsp-sourcekit-executable lsp-sourcekit-executable-param))
+
+(use-package swift-mode
+  :hook (swift-mode . (lambda () (lsp))))
+#+end_src
+
+* SQL
+
+EJC-SQL is used for running database queries from within an org file. This requires installation of Lein for Clojure. Also see https://quabr.com/64274647/clojure-cider-on-catalina-the-lein-executable-isn-t-on-your-exec-path
+#+begin_src elisp
+(require 'ejc-sql)
+(setq nrepl-sync-request-timeout nil)
+#+end_src
+
+Create an EJC-SQL database connection. This requires a JDBC driver for the given database.
+#+begin_src elisp
+(ejc-create-connection
+   ejc-connection-name-param
+   :dependencies ejc-dependencies-param
+   :classpath ejc-classpath-param
+   :connection-uri ejc-connection-uri-param
+   )
+#+end_src
+
+Set the format of results from EJC-SQL.
+#+begin_src elisp
+(setq ejc-result-table-impl 'orgtbl-mode)
+
+(add-hook 'ejc-sql-connected-hook
+          (lambda ()
+            (ejc-set-fetch-size 50)
+            (ejc-set-max-rows 50)
+            (ejc-set-show-too-many-rows-message t)
+            (ejc-set-column-width-limit 1000)
+            (ejc-set-use-unicode t)))
+#+end_src
+
+* Misc
+
+Enable Pocket for viewing bookmarks.
+#+begin_src elisp
+(require 'pocket-reader)
+#+end_src
