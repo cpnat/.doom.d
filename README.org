@@ -94,7 +94,7 @@ Flash the cursor following vertical or horizontal movement to increase visibilit
 
 * Navigation
 
-Enable evil-snipe for quick horizontal movement.
+Enable evil-snipe for quick horizontal movement. This is used in conjunction with avy (https://github.com/abo-abo/avy), which is used for larger movements.
 #+begin_src elisp
 (evil-snipe-mode +1)
 (evil-snipe-override-mode +1)
@@ -121,6 +121,56 @@ Leader keymapping.
         :desc "Get random node" "r" #' org-roam-node-random))
 #+end_src
 
+Launch other applications with AppleScript (workaround for issues with emacs capturing commands intended for the OS).
+#+begin_src elisp
+(defun application-activate (application-name)
+
+(interactive)
+
+  (let ((script (format "tell application \"%s\" \n activate \n end tell" application-name)))
+  (start-process "application-activate" nil "osascript" "-e" script)))
+#+end_src
+
+#+begin_src elisp
+(defun firefox-activate ()
+(interactive)
+(application-activate "Firefox"))
+
+(global-set-key (kbd "M-s-2") 'firefox-activate)
+#+end_src
+
+#+begin_src elisp
+(defun pycharm-activate ()
+(interactive)
+(application-activate "PyCharm"))
+
+(global-set-key (kbd "M-s-3") 'pycharm-activate)
+#+end_src
+
+#+begin_src elisp
+(defun slack-activate ()
+(interactive)
+(application-activate "Slack"))
+
+(global-set-key (kbd "M-s-4") 'slack-activate)
+#+end_src
+
+#+begin_src elisp
+(defun calendar-activate ()
+(interactive)
+(application-activate "Calendar"))
+
+(global-set-key (kbd "M-s-5") 'calendar-activate)
+#+end_src
+
+#+begin_src elisp
+(defun spotify-activate ()
+(interactive)
+(application-activate "Spotify"))
+
+(global-set-key (kbd "M-s-6") 'spotify-activate)
+#+end_src
+
 * Terminal
 
 Multi-vterm is used to manage multiple vterm buffers simultaneously.
@@ -144,7 +194,7 @@ TODO: Create a function that dynamically sets the mode based upon file size.
 
 * Completion
 
-Hunspell (https://hunspell.github.io/) is used for spellchecking and autocompletion. GNU Ispell/Aspell should not be installed.
+Hunspell (https://hunspell.github.io/) is used for spellchecking and prose completion. GNU Ispell/Aspell should not be installed.
 #+begin_src
 (require 'ispell)
 

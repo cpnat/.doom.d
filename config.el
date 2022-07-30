@@ -46,6 +46,43 @@
         :desc "Find node" "f" #'org-roam-node-find
         :desc "Get random node" "r" #' org-roam-node-random))
 
+(defun application-activate (application-name)
+
+(interactive)
+
+  (let ((script (format "tell application \"%s\" \n activate \n end tell" application-name)))
+  (start-process "application-activate" nil "osascript" "-e" script)))
+
+(defun firefox-activate ()
+(interactive)
+(application-activate "Firefox"))
+
+(global-set-key (kbd "M-s-2") 'firefox-activate)
+
+(defun pycharm-activate ()
+(interactive)
+(application-activate "PyCharm"))
+
+(global-set-key (kbd "M-s-3") 'pycharm-activate)
+
+(defun slack-activate ()
+(interactive)
+(application-activate "Slack"))
+
+(global-set-key (kbd "M-s-4") 'slack-activate)
+
+(defun calendar-activate ()
+(interactive)
+(application-activate "Calendar"))
+
+(global-set-key (kbd "M-s-5") 'calendar-activate)
+
+(defun spotify-activate ()
+(interactive)
+(application-activate "Spotify"))
+
+(global-set-key (kbd "M-s-6") 'spotify-activate)
+
 (use-package multi-vterm)
 
 (setq auto-save-default t
