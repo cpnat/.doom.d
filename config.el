@@ -36,6 +36,8 @@
 (evil-define-key 'visual evil-snipe-local-mode-map "z" 'evil-snipe-s)
 (evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
 
+(setq avy-timeout-seconds 2.0)
+
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
 

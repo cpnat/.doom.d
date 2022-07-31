@@ -47,12 +47,14 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 
 * UI  
 
-Theme.
+** Theme
+
 #+begin_src elisp
 (setq doom-theme 'doom-solarized-dark)
 #+end_src
 
-Fonts.
+** Fonts
+
 #+begin_src elisp
 (setq doom-font (font-spec :family "Fira Code" :style "Retina" :size 14 :height 1.0)
       doom-big-font (font-spec :family "Fira Code" :style "Retina" :size 28 :height 1.0))
@@ -61,10 +63,14 @@ Fonts.
 ;;      doom-variable-pitch-font (font-spec :family "ETBembo" :style "RomanLF" :size 18 :height 1.0))
 #+end_src
 
+** Frame
+
 Maximise Frame on startup.
 #+begin_src elisp
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
+
+** Other UI elements
 
 Turn off unnecessary UI elements.
 #+begin_src elisp
@@ -72,16 +78,22 @@ Turn off unnecessary UI elements.
 (tool-bar-mode -1)
 #+end_src
 
+** Line numbers
+
 Set relative line numbers and display in every buffer.
 #+begin_src elisp
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
 #+end_src
 
+** Splash
+
 Set a custom splash image.
 #+begin_src elisp
 (setq fancy-splash-image (concat doom-private-dir "splash/I-am-doom-small.png"))
 #+end_src
+
+** Cursor
 
 Flash the cursor following vertical or horizontal movement to increase visibility.
 #+begin_src elisp
@@ -94,7 +106,9 @@ Flash the cursor following vertical or horizontal movement to increase visibilit
 
 * Navigation
 
-Enable evil-snipe for quick horizontal movement. This is used in conjunction with avy (https://github.com/abo-abo/avy), which is used for larger movements.
+** Snipe
+
+Enable evil-snipe for quick horizontal movement.
 #+begin_src elisp
 (evil-snipe-mode +1)
 (evil-snipe-override-mode +1)
@@ -102,16 +116,52 @@ Enable evil-snipe for quick horizontal movement. This is used in conjunction wit
 (evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
 #+end_src
 
+Keybinds are as follow:-
+| kbd | action                                |
+|-----+---------------------------------------|
+| t   | one letter forwards                   |
+| T   | one letter backwards                  |
+| s   | two letter forwards                   |
+| S   | two letter backwards                  |
+| ;   | jump to next occurrence of search     |
+| ,   | jump to previous occurrence of search |
+
+** Avy
+
+avy (https://github.com/abo-abo/avy) is used for larger movements across visible buffer regions (similar to vim easymotion); with vim `/*#` used to find text in regions that are not visible.
+
+This variable sets the input timeout.
+#+begin_src elisp
+(setq avy-timeout-seconds 2.0)
+#+end_src
+
+avy keybinds are as follow:-
+| kbd               | action                                        |
+|-------------------+-----------------------------------------------|
+| gs spc <search>   | jump to word                                  |
+| gs spc <search> x | jump to word and delete                       |
+| gs spc <search> i | jump to word and correct spelling with ispell |
+| gs spc <search> y | jump to word and yank                         |
+| gs spc <search> t | jump to work and teleport                     |
+
+In addition `avy-all-windows` can be used to toggle search across multiple buffers.
+
+** Multiple cursors
+
 Enable multiple cursors.
 #+begin_src elisp
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
 #+end_src
 
+** Treemacs
+
 Allow treemacs to be selected as other-window, for quick switching.
 #+begin_src elisp
 (setq treemacs-is-never-other-window nil)
 #+end_src
+
+** Keybinds
 
 Leader keymapping.
 #+begin_src elisp
@@ -120,6 +170,8 @@ Leader keymapping.
         :desc "Find node" "f" #'org-roam-node-find
         :desc "Get random node" "r" #' org-roam-node-random))
 #+end_src
+
+** External applications
 
 Launch other applications with AppleScript (workaround for issues with emacs capturing commands intended for the OS).
 #+begin_src elisp
@@ -173,6 +225,8 @@ Launch other applications with AppleScript (workaround for issues with emacs cap
 
 * Terminal
 
+** Multi-vterm
+
 Multi-vterm is used to manage multiple vterm buffers simultaneously.
 #+begin_src elisp
 (use-package multi-vterm)
@@ -180,11 +234,15 @@ Multi-vterm is used to manage multiple vterm buffers simultaneously.
 
 * Files
 
+** Autosave
+
 Enable autosave.
 #+begin_src elisp
 (setq auto-save-default t
       make-backup-files t)
 #+end_src
+
+** Markdown
 
 Use fundamental mode for markdown files to improve performance.
 TODO: Create a function that dynamically sets the mode based upon file size.
@@ -193,6 +251,8 @@ TODO: Create a function that dynamically sets the mode based upon file size.
 #+end_src
 
 * Completion
+
+** Hunpell
 
 Hunspell (https://hunspell.github.io/) is used for spellchecking and prose completion. GNU Ispell/Aspell should not be installed.
 #+begin_src
@@ -230,6 +290,8 @@ Hunspell (https://hunspell.github.io/) is used for spellchecking and prose compl
 
 #+end_src
 
+** Language Server Protocol
+
 Company mode with LSP support is used for code completion.
 #+begin_src elisp
 (require 'company-lsp)
@@ -245,12 +307,16 @@ Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.
 
 Note Clang/GCC, graphviz and pandoc are required external dependencies.
 
+** Org
+
 Configuration for org.
 #+begin_src elisp
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
 (setq org-startup-folded 'fold)
 #+end_src
+
+** Org-Roam
 
 Configuration for org-roam.
 #+begin_src elisp
@@ -273,10 +339,14 @@ Configuration for org-roam.
 
 * Projects
 
+** Projectile
+
 Configuration for the project management tool Projectile.
 #+begin_src elisp
 (setq projectile-project-search-path projectile-project-search-path-param)
 #+end_src
+
+** Magit
 
 Magit is used as an interface to git. This configuration improves performance by refreshing only the current buffer and not the status buffer. See https://magit.vc/manual/magit/Performance.html for more performance improvement tips.
 #+begin_src elisp
@@ -284,6 +354,8 @@ Magit is used as an interface to git. This configuration improves performance by
 #+end_src
 
 * Python
+
+** Pyenv
 
 Configuration for Pyenv.
 #+begin_src elisp
@@ -294,9 +366,6 @@ Configuration for Pyenv.
 
 (require 'pyenv-mode)
 #+end_src
-
-#+RESULTS:
-: pyenv-mode
 
 Activate a Pyenv environment with a matching name when switching to a Projectile project.
 #+begin_src elisp
@@ -309,6 +378,8 @@ Activate a Pyenv environment with a matching name when switching to a Projectile
 (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 #+end_src
 
+** Python Language Server
+
 Configuration of Microsoft Language Server for LSP mode; including auto installation in the active Python environment.
 #+begin_src elisp
 (use-package lsp-python-ms
@@ -318,6 +389,8 @@ Configuration of Microsoft Language Server for LSP mode; including auto installa
                           (require 'lsp-python-ms)
                           (lsp))))  ; or lsp-deferred
 #+end_src
+
+** Anaconda
 
 Deprecated Anaconda configuration.
 #+begin_src elisp
@@ -332,6 +405,8 @@ Deprecated Anaconda configuration.
 
 * Java
 
+** Java Language Server
+
 Enable Eclipse LSP for Java. Requires installation of the JDK.
 #+begin_src elisp
 (use-package lsp-java
@@ -343,6 +418,8 @@ Enable Eclipse LSP for Java. Requires installation of the JDK.
 #+end_src
 
 * Swift
+
+** Swift Language Server
 
 Enable Swift mode with Apple Sourcekit LSP. Requires installation of XCode.
 #+begin_src elisp
@@ -356,6 +433,8 @@ Enable Swift mode with Apple Sourcekit LSP. Requires installation of XCode.
 #+end_src
 
 * SQL
+
+** EJC-SQL
 
 EJC-SQL is used for running database queries from within an org file. This requires installation of Lein for Clojure. Also see https://quabr.com/64274647/clojure-cider-on-catalina-the-lein-executable-isn-t-on-your-exec-path
 #+begin_src elisp
@@ -387,6 +466,8 @@ Set the format of results from EJC-SQL.
 #+end_src
 
 * Misc
+
+** Pocket
 
 Enable Pocket for viewing bookmarks.
 #+begin_src elisp
