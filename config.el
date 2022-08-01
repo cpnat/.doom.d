@@ -7,7 +7,7 @@
 (setq user-full-name user-full-name-param
       user-mail-address user-mail-address-param)
 
-(setq doom-theme 'doom-solarized-dark)
+(setq doom-theme 'doom-nord)
 
 (setq doom-font (font-spec :family "Fira Code" :style "Retina" :size 14 :height 1.0)
       doom-big-font (font-spec :family "Fira Code" :style "Retina" :size 28 :height 1.0))
@@ -36,7 +36,7 @@
 (evil-define-key 'visual evil-snipe-local-mode-map "z" 'evil-snipe-s)
 (evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
 
-(setq avy-timeout-seconds 2.0)
+(setq avy-timeout-seconds 1.0)
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
@@ -98,6 +98,12 @@
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
 (setq org-startup-folded 'fold)
+
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(setq org-ellipsis " ▼")
 
 (use-package org-roam
   :after org

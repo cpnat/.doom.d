@@ -11,17 +11,46 @@ Additionally, packages are managed in `packages.el` and some Doom specific initi
 - [[#parameters][Parameters]]
 - [[#personal-details][Personal details]]
 - [[#ui][UI]]
+  - [[#theme][Theme]]
+  - [[#fonts][Fonts]]
+  - [[#frame][Frame]]
+  - [[#other-ui-elements][Other UI elements]]
+  - [[#line-numbers][Line numbers]]
+  - [[#splash][Splash]]
+  - [[#cursor][Cursor]]
 - [[#navigation][Navigation]]
+  - [[#snipe][Snipe]]
+  - [[#avy][Avy]]
+  - [[#multiple-cursors][Multiple cursors]]
+  - [[#treemacs][Treemacs]]
+  - [[#keybinds][Keybinds]]
+  - [[#external-applications][External applications]]
 - [[#terminal][Terminal]]
+  - [[#multi-vterm][Multi-vterm]]
 - [[#files][Files]]
+  - [[#autosave][Autosave]]
+  - [[#markdown][Markdown]]
 - [[#completion][Completion]]
+  - [[#hunpell][Hunpell]]
+  - [[#language-server-protocol][Language Server Protocol]]
 - [[#org-mode][Org-mode]]
+  - [[#org][Org]]
+  - [[#org-roam][Org-Roam]]
 - [[#projects][Projects]]
+  - [[#projectile][Projectile]]
+  - [[#magit][Magit]]
 - [[#python][Python]]
+  - [[#pyenv][Pyenv]]
+  - [[#python-language-server][Python Language Server]]
+  - [[#anaconda][Anaconda]]
 - [[#java][Java]]
+  - [[#java-language-server][Java Language Server]]
 - [[#swift][Swift]]
+  - [[#swift-language-server][Swift Language Server]]
 - [[#sql][SQL]]
+  - [[#ejc-sql][EJC-SQL]]
 - [[#misc][Misc]]
+  - [[#pocket][Pocket]]
 
 * Elisp scope
 
@@ -50,7 +79,7 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 ** Theme
 
 #+begin_src elisp
-(setq doom-theme 'doom-solarized-dark)
+(setq doom-theme 'doom-nord)
 #+end_src
 
 ** Fonts
@@ -132,7 +161,7 @@ avy (https://github.com/abo-abo/avy) is used for larger movements across visible
 
 This variable sets the input timeout.
 #+begin_src elisp
-(setq avy-timeout-seconds 2.0)
+(setq avy-timeout-seconds 1.0)
 #+end_src
 
 avy keybinds are as follow:-
@@ -316,6 +345,18 @@ Configuration for org.
 (setq org-startup-folded 'fold)
 #+end_src
 
+Replace headline markers with unicode bullets.
+#+begin_src elisp
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src
+
+Replace '...'
+#+begin_src elisp
+(setq org-ellipsis " ▼")
+#+end_src
+
 ** Org-Roam
 
 Configuration for org-roam.
@@ -336,6 +377,7 @@ Configuration for org-roam.
              ("C-c n a" . org-roam-alias-add)
              ("C-c n l" . org-roam-buffer-toggle)))))
 #+end_src
+
 
 * Projects
 

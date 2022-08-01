@@ -61,6 +61,7 @@
 (package! multi-vterm)
 (package! multiple-cursors)
 (package! pyenv-mode)
+(package! org-bullets)
 (package! org-roam)
 (package! pocket-reader)
 (package! switch-window)
