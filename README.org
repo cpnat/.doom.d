@@ -23,7 +23,6 @@ Additionally, packages are managed in `packages.el` and some Doom specific initi
   - [[#avy][Avy]]
   - [[#multiple-cursors][Multiple cursors]]
   - [[#treemacs][Treemacs]]
-  - [[#keybinds][Keybinds]]
   - [[#external-applications][External applications]]
 - [[#terminal][Terminal]]
   - [[#multi-vterm][Multi-vterm]]
@@ -112,7 +111,7 @@ Turn off unnecessary UI elements.
 Set relative line numbers and display in every buffer.
 #+begin_src elisp
 (global-display-line-numbers-mode 1)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type  t)
 #+end_src
 
 ** Splash
@@ -141,39 +140,34 @@ Enable evil-snipe for quick horizontal movement.
 #+begin_src elisp
 (evil-snipe-mode +1)
 (evil-snipe-override-mode +1)
+
+(setq evil-snipe-repeat-scope 'buffer)
+
 (evil-define-key 'visual evil-snipe-local-mode-map "z" 'evil-snipe-s)
 (evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
+
 #+end_src
 
 Keybinds are as follow:-
-| kbd | action                                |
-|-----+---------------------------------------|
-| t   | one letter forwards                   |
-| T   | one letter backwards                  |
-| s   | two letter forwards                   |
-| S   | two letter backwards                  |
-| ;   | jump to next occurrence of search     |
-| ,   | jump to previous occurrence of search |
+| kbd      | action                                |
+|----------+---------------------------------------|
+| f        | one letter forwards (inclusive)       |
+| F        | one letter backwards (inclusive)      |
+| t        | one letter forwards (exclusive)       |
+| T        | one letter backwards (exclusive)      |
+| ; or f/t | jump to next occurrence of search     |
+| ,        | jump to previous occurrence of search |
 
 ** Avy
 
-avy (https://github.com/abo-abo/avy) is used for larger movements across visible buffer regions (similar to vim easymotion); with vim `/*#` used to find text in regions that are not visible.
+avy (https://github.com/abo-abo/avy) is used for larger movements across visible buffer regions (similar to vim easymotion); with vim `/?nN` used to find text in regions that are not visible.
 
-This variable sets the input timeout.
 #+begin_src elisp
-(setq avy-timeout-seconds 1.0)
+(map! :leader
+        :desc "Avy goto" "SPC" #'avy-goto-char-2)
+
+(setq avy-all-windows 'all-frames)
 #+end_src
-
-avy keybinds are as follow:-
-| kbd               | action                                        |
-|-------------------+-----------------------------------------------|
-| gs spc <search>   | jump to word                                  |
-| gs spc <search> x | jump to word and delete                       |
-| gs spc <search> i | jump to word and correct spelling with ispell |
-| gs spc <search> y | jump to word and yank                         |
-| gs spc <search> t | jump to work and teleport                     |
-
-In addition `avy-all-windows` can be used to toggle search across multiple buffers.
 
 ** Multiple cursors
 
@@ -188,16 +182,6 @@ Enable multiple cursors.
 Allow treemacs to be selected as other-window, for quick switching.
 #+begin_src elisp
 (setq treemacs-is-never-other-window nil)
-#+end_src
-
-** Keybinds
-
-Leader keymapping.
-#+begin_src elisp
-(map! :leader
-       (:prefix ("r" . "org-roam")
-        :desc "Find node" "f" #'org-roam-node-find
-        :desc "Get random node" "r" #' org-roam-node-random))
 #+end_src
 
 ** External applications
@@ -378,6 +362,13 @@ Configuration for org-roam.
              ("C-c n l" . org-roam-buffer-toggle)))))
 #+end_src
 
+Leader keymapping.
+#+begin_src elisp
+(map! :leader
+       (:prefix ("r" . "org-roam")
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Get random node" "r" #' org-roam-node-random))
+#+end_src
 
 * Projects
 
@@ -422,15 +413,6 @@ Activate a Pyenv environment with a matching name when switching to a Projectile
 
 ** Python Language Server
 
-Configuration of Microsoft Language Server for LSP mode; including auto installation in the active Python environment.
-#+begin_src elisp
-(use-package lsp-python-ms
-  :ensure t
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-python-ms)
-                          (lsp))))  ; or lsp-deferred
-#+end_src
 
 ** Anaconda
 

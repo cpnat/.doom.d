@@ -21,7 +21,7 @@
 (tool-bar-mode -1)
 
 (global-display-line-numbers-mode 1)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type  t)
 
 (setq fancy-splash-image (concat doom-private-dir "splash/I-am-doom-small.png"))
 
@@ -33,20 +33,21 @@
 
 (evil-snipe-mode +1)
 (evil-snipe-override-mode +1)
+
+(setq evil-snipe-repeat-scope 'buffer)
+
 (evil-define-key 'visual evil-snipe-local-mode-map "z" 'evil-snipe-s)
 (evil-define-key 'visual evil-snipe-local-mode-map "Z" 'evil-snipe-S)
 
-(setq avy-timeout-seconds 1.0)
+(map! :leader
+        :desc "Avy goto" "SPC" #'avy-goto-char-2)
+
+(setq avy-all-windows 'all-frames)
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
 
 (setq treemacs-is-never-other-window nil)
-
-(map! :leader
-       (:prefix ("r" . "org-roam")
-        :desc "Find node" "f" #'org-roam-node-find
-        :desc "Get random node" "r" #' org-roam-node-random))
 
 (defun application-activate (application-name)
 
@@ -121,6 +122,11 @@
              ("C-c n a" . org-roam-alias-add)
              ("C-c n l" . org-roam-buffer-toggle)))))
 
+(map! :leader
+       (:prefix ("r" . "org-roam")
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Get random node" "r" #' org-roam-node-random))
+
 (setq projectile-project-search-path projectile-project-search-path-param)
 
 (setq magit-refresh-status-buffer nil)
@@ -139,13 +145,6 @@
       (pyenv-mode-unset))))
 
 (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
-
-(use-package lsp-python-ms
-  :ensure t
-  :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-python-ms)
-                          (lsp))))  ; or lsp-deferred
 
 ;; CONDA
 ;;(require 'conda)
