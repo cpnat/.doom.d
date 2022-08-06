@@ -411,7 +411,16 @@ Activate a Pyenv environment with a matching name when switching to a Projectile
 (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 #+end_src
 
+Note, since Projectile is used for switching projects, poetry must be configured as follows:-
+
+```
+virtualenvs.create = false
+virtualenvs.in-project = false
+virtualenvs.path = pyenv-directory-param
+```
+
 ** Python Language Server
+Pyright is configured by Doom through `init.el`. pyright, pylint and flake8 must be installed in the venv for lsp and flycheck to function correctly.
 
 
 ** Anaconda
