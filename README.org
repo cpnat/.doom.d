@@ -1,10 +1,10 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args :tangle config.el
 
-This file (in conjunction with `org-babel-tangle`) is used to generate a
-`config.el` for Doom Emacs (https://github.com/doomemacs/doomemacs). Run a local refresh at the head of this file (CTRL-C CTRL-C) prior to tangling.
+This file (in conjunction with ~org-babel-tangle~) is used to generate a
+~config.el~ for Doom Emacs (https://github.com/doomemacs/doomemacs). Run a local refresh at the head of this file ~(CTRL-C CTRL-C)~ prior to tangling.
 
-Additionally, packages are managed in `packages.el` and some Doom specific initial configuration in `init.el`
+Additionally, packages are managed in ~packages.el~ and some Doom specific initial configuration in ~init.el~
 
 * Table of contents :TOC:
 - [[#elisp-scope][Elisp scope]]
@@ -40,12 +40,14 @@ Additionally, packages are managed in `packages.el` and some Doom specific initi
   - [[#magit][Magit]]
 - [[#python][Python]]
   - [[#pyenv][Pyenv]]
-  - [[#python-language-server][Python Language Server]]
+  - [[#pyright-language-server][Pyright Language Server]]
   - [[#anaconda][Anaconda]]
 - [[#java][Java]]
-  - [[#java-language-server][Java Language Server]]
+  - [[#eclipse-language-server][Eclipse Language Server]]
+- [[#scala][Scala]]
+  - [[#metals-language-server][Metals Language Server]]
 - [[#swift][Swift]]
-  - [[#swift-language-server][Swift Language Server]]
+  - [[#sourcekit-language-server][Sourcekit Language Server]]
 - [[#sql][SQL]]
   - [[#ejc-sql][EJC-SQL]]
 - [[#misc][Misc]]
@@ -54,6 +56,7 @@ Additionally, packages are managed in `packages.el` and some Doom specific initi
 * Elisp scope
 
 Elisp uses dynamic scoping by default, however this comes with a performance penalty. Lexical scope is set with a file parameter.
+
 #+begin_src elisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+end_src
@@ -94,6 +97,7 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 ** Frame
 
 Maximise Frame on startup.
+
 #+begin_src elisp
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
@@ -101,6 +105,7 @@ Maximise Frame on startup.
 ** Other UI elements
 
 Turn off unnecessary UI elements.
+
 #+begin_src elisp
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -108,7 +113,8 @@ Turn off unnecessary UI elements.
 
 ** Line numbers
 
-Set relative line numbers and display in every buffer.
+Set absolute line numbers and display in every buffer.
+
 #+begin_src elisp
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type  t)
@@ -117,6 +123,7 @@ Set relative line numbers and display in every buffer.
 ** Splash
 
 Set a custom splash image.
+
 #+begin_src elisp
 (setq fancy-splash-image (concat doom-private-dir "splash/I-am-doom-small.png"))
 #+end_src
@@ -124,6 +131,7 @@ Set a custom splash image.
 ** Cursor
 
 Flash the cursor following vertical or horizontal movement to increase visibility.
+
 #+begin_src elisp
 (require 'beacon)
 (beacon-mode 1)
@@ -137,6 +145,7 @@ Flash the cursor following vertical or horizontal movement to increase visibilit
 ** Snipe
 
 Enable evil-snipe for quick horizontal movement.
+
 #+begin_src elisp
 (evil-snipe-mode +1)
 (evil-snipe-override-mode +1)
@@ -160,7 +169,7 @@ Keybinds are as follow:-
 
 ** Avy
 
-avy (https://github.com/abo-abo/avy) is used for larger movements across visible buffer regions (similar to vim easymotion); with vim `/?nN` used to find text in regions that are not visible.
+avy (https://github.com/abo-abo/avy) is used for larger movements across visible buffer regions (similar to vim easymotion); with vim ~/?nN~ used to find text in regions that are not visible.
 
 #+begin_src elisp
 (map! :leader
@@ -171,7 +180,8 @@ avy (https://github.com/abo-abo/avy) is used for larger movements across visible
 
 ** Multiple cursors
 
-Enable multiple cursors.
+Enable multiple cursors (flakey with EVIL/doom).
+
 #+begin_src elisp
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
@@ -180,6 +190,7 @@ Enable multiple cursors.
 ** Treemacs
 
 Allow treemacs to be selected as other-window, for quick switching.
+
 #+begin_src elisp
 (setq treemacs-is-never-other-window nil)
 #+end_src
@@ -187,6 +198,7 @@ Allow treemacs to be selected as other-window, for quick switching.
 ** External applications
 
 Launch other applications with AppleScript (workaround for issues with emacs capturing commands intended for the OS).
+
 #+begin_src elisp
 (defun application-activate (application-name)
 
@@ -241,6 +253,7 @@ Launch other applications with AppleScript (workaround for issues with emacs cap
 ** Multi-vterm
 
 Multi-vterm is used to manage multiple vterm buffers simultaneously.
+
 #+begin_src elisp
 (use-package multi-vterm)
 #+end_src
@@ -250,6 +263,7 @@ Multi-vterm is used to manage multiple vterm buffers simultaneously.
 ** Autosave
 
 Enable autosave.
+
 #+begin_src elisp
 (setq auto-save-default t
       make-backup-files t)
@@ -259,6 +273,7 @@ Enable autosave.
 
 Use fundamental mode for markdown files to improve performance.
 TODO: Create a function that dynamically sets the mode based upon file size.
+
 #+begin_src elisp
 ;;(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
 #+end_src
@@ -268,6 +283,7 @@ TODO: Create a function that dynamically sets the mode based upon file size.
 ** Hunpell
 
 Hunspell (https://hunspell.github.io/) is used for spellchecking and prose completion. GNU Ispell/Aspell should not be installed.
+
 #+begin_src
 (require 'ispell)
 
@@ -306,23 +322,30 @@ Hunspell (https://hunspell.github.io/) is used for spellchecking and prose compl
 ** Language Server Protocol
 
 Company mode with LSP support is used for code completion.
+
 #+begin_src elisp
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 #+end_src
 
 Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/ for a guide on enabling/disabling LSP features.
+
 #+begin_src
 (setq lsp-lens-enable nil)
 #+end_src
 
 * Org-mode
 
-Note Clang/GCC, graphviz and pandoc are required external dependencies.
+Pre-requisites:-
+
+- Clang
+- Graphviz
+- Pandoc
 
 ** Org
 
 Configuration for org.
+
 #+begin_src elisp
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
@@ -330,6 +353,7 @@ Configuration for org.
 #+end_src
 
 Replace headline markers with unicode bullets.
+
 #+begin_src elisp
   (use-package org-bullets
     :config
@@ -337,6 +361,7 @@ Replace headline markers with unicode bullets.
 #+end_src
 
 Replace '...'
+
 #+begin_src elisp
 (setq org-ellipsis " ▼")
 #+end_src
@@ -344,6 +369,7 @@ Replace '...'
 ** Org-Roam
 
 Configuration for org-roam.
+
 #+begin_src elisp
 (use-package org-roam
   :after org
@@ -363,6 +389,7 @@ Configuration for org-roam.
 #+end_src
 
 Leader keymapping.
+
 #+begin_src elisp
 (map! :leader
        (:prefix ("r" . "org-roam")
@@ -375,6 +402,7 @@ Leader keymapping.
 ** Projectile
 
 Configuration for the project management tool Projectile.
+
 #+begin_src elisp
 (setq projectile-project-search-path projectile-project-search-path-param)
 #+end_src
@@ -382,6 +410,7 @@ Configuration for the project management tool Projectile.
 ** Magit
 
 Magit is used as an interface to git. This configuration improves performance by refreshing only the current buffer and not the status buffer. See https://magit.vc/manual/magit/Performance.html for more performance improvement tips.
+
 #+begin_src elisp
 (setq magit-refresh-status-buffer nil)
 #+end_src
@@ -391,6 +420,7 @@ Magit is used as an interface to git. This configuration improves performance by
 ** Pyenv
 
 Configuration for Pyenv.
+
 #+begin_src elisp
 (use-package pyvenv
   :ensure t
@@ -401,6 +431,7 @@ Configuration for Pyenv.
 #+end_src
 
 Activate a Pyenv environment with a matching name when switching to a Projectile project.
+
 #+begin_src elisp
 (defun projectile-pyenv-mode-set ()
   (let ((project (projectile-project-name)))
@@ -413,19 +444,25 @@ Activate a Pyenv environment with a matching name when switching to a Projectile
 
 Note, since Projectile is used for switching projects, poetry must be configured as follows:-
 
-```
+#+begin_src bash :tangle no
 virtualenvs.create = false
 virtualenvs.in-project = false
 virtualenvs.path = pyenv-directory-param
-```
+#+end_src
 
-** Python Language Server
-Pyright is configured by Doom through `init.el`. pyright, pylint and flake8 must be installed in the venv for lsp and flycheck to function correctly.
 
+** Pyright Language Server
+
+Pyright is configured by Doom through ~init.el~. Pre-requisites (to be installed in the venv associated with the project):-
+
+- pyright
+- pylint
+- flake8
 
 ** Anaconda
 
 Deprecated Anaconda configuration.
+
 #+begin_src elisp
 ;; CONDA
 ;;(require 'conda)
@@ -438,9 +475,12 @@ Deprecated Anaconda configuration.
 
 * Java
 
-** Java Language Server
+** Eclipse Language Server
 
-Enable Eclipse LSP for Java. Requires installation of the JDK.
+Enable Eclipse LSP. Pre-requisites:-
+
+- JDK
+
 #+begin_src elisp
 (use-package lsp-java
 :ensure t
@@ -450,11 +490,65 @@ Enable Eclipse LSP for Java. Requires installation of the JDK.
 (setq lsp-java-java-path lsp-java-java-path-param)
 #+end_src
 
+* Scala
+
+** Metals Language Server
+
+Enable Metals LSP. Pre-requisites:-
+
+- JDK
+- Coursier (https://get-coursier.io/)
+- Metals (installed via Coursier, as below) (https://scalameta.org/metals/)
+
+#+begin_src bash :tangle no
+cs bootstrap \
+        --java-opt -Xss4m \
+        --java-opt -Xms100m \ f
+        --java-opt -Dmetals.client=emacs \
+        org.scalameta:metals_2.12:0.10.1 \
+        -r bintray:scalacenter/releases \
+        -r sonatype:snapshots \
+        -o /usr/local/bin/metals-emacs -f -v -v -v
+#+end_src
+
+#+begin_src elisp
+;; Enable scala-mode and sbt-mode
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+;; Enable nice rendering of diagnostics like compile errors.
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package lsp-mode
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp)
+#+end_src
+
 * Swift
 
-** Swift Language Server
+** Sourcekit Language Server
 
-Enable Swift mode with Apple Sourcekit LSP. Requires installation of XCode.
+Enable Apple Sourcekit LSP. Pre-requisites:-
+
+- XCode
+
 #+begin_src elisp
 (use-package lsp-sourcekit
   :after lsp-mode
@@ -469,13 +563,19 @@ Enable Swift mode with Apple Sourcekit LSP. Requires installation of XCode.
 
 ** EJC-SQL
 
-EJC-SQL is used for running database queries from within an org file. This requires installation of Lein for Clojure. Also see https://quabr.com/64274647/clojure-cider-on-catalina-the-lein-executable-isn-t-on-your-exec-path
+EJC-SQL is used for running database queries from within an org file. Pre-requisites:-
+
+- Lein (for Clojure)
+
+  Also see https://quabr.com/64274647/clojure-cider-on-catalina-the-lein-executable-isn-t-on-your-exec-path
+
 #+begin_src elisp
 (require 'ejc-sql)
 (setq nrepl-sync-request-timeout nil)
 #+end_src
 
 Create an EJC-SQL database connection. This requires a JDBC driver for the given database.
+
 #+begin_src elisp
 (ejc-create-connection
    ejc-connection-name-param
@@ -486,6 +586,7 @@ Create an EJC-SQL database connection. This requires a JDBC driver for the given
 #+end_src
 
 Set the format of results from EJC-SQL.
+
 #+begin_src elisp
 (setq ejc-result-table-impl 'orgtbl-mode)
 
