@@ -64,6 +64,7 @@
 (package! org-bullets)
 (package! org-present)
 (package! org-roam)
+(package! org-roam-ui)
 (package! pocket-reader)
 (package! switch-window)
 (package! virtualenvwrapper)
