@@ -69,3 +69,4 @@
 (package! switch-window)
 (package! virtualenvwrapper)
 (package! visual-fill-column)
+(package! writeroom-mode)

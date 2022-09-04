@@ -106,17 +106,26 @@
 
 (setq org-ellipsis " ▼")
 
-(map! :leader
-        :desc "Org Present" "<up>" #'org-present)
+(use-package org-roam
+  :after org
+  :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+  :custom
+  (org-roam-directory (file-truename org-roam-directory-param))
+  :config
+  (org-roam-setup)
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n r" . org-roam-node-random)
+           (:map org-mode-map
+            (("C-c n i" . org-roam-node-insert)
+             ("C-c n o" . org-id-get-create)
+             ("C-c n t" . org-roam-tag-add)
+             ("C-c n a" . org-roam-alias-add)
+             ("C-c n l" . org-roam-buffer-toggle)))))
 
 (map! :leader
-        :desc "Org Present" "<down>" #'org-present-quit)
-
-(map! :leader
-        :desc "Org Present Next" "<right>" #'org-present-next)
-
-(map! :leader
-        :desc "Org Present Prev" "<left>" #'org-present-prev)
+       (:prefix ("r" . "org-roam")
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Get random node" "r" #' org-roam-node-random))
 
 (use-package! websocket
     :after org-roam)
@@ -133,8 +142,20 @@
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
+(map! :leader
+        :desc "Org Present" "<up>" #'org-present)
+
+(map! :leader
+        :desc "Org Present" "<down>" #'org-present-quit)
+
+(map! :leader
+        :desc "Org Present Next" "<right>" #'org-present-next)
+
+(map! :leader
+        :desc "Org Present Prev" "<left>" #'org-present-prev)
+
 ;; Centering Org Documents
-;; Configure fill width
+;; Configure fill width, used in conjuntion with writeroom-mode
 (setq visual-fill-column-width 75
       visual-fill-column-center-text t)
 
@@ -158,13 +179,10 @@
   ;; Display inline images automatically
   (org-display-inline-images)
 
-  ;; Center the presentation and wrap lines
-  (visual-fill-column-mode 1)
-  (visual-line-mode 1)
+  ;; Center the presentation, wrap lines, and hide modelines
+  (writeroom-mode 1)
 
-  ;; Hide modelines and line numbers
-  (doom-modeline-mode 0)
-  (hide-mode-line-mode 0)
+  ;; Hide line numbers
   (global-display-line-numbers-mode 0)
 )
 
@@ -176,13 +194,10 @@
   ;; Stop displaying inline images
   (org-remove-inline-images)
 
-  ;; Stop centering the document
-  (visual-fill-column-mode 0)
-  (visual-line-mode 0)
+  ;; Stop centering the document and wrapping lines; and show modelines
+  (writeroom-mode 0)
 
-  ;; Return modelines and line numbers
-  (doom-modeline-mode 1)
-  (hide-mode-line-mode 1)
+  ;; Return line numbers
   (global-display-line-numbers-mode 1)
 )
 
@@ -190,27 +205,6 @@
 (add-hook 'org-present-mode-hook 'my/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide)
-
-(use-package org-roam
-  :after org
-  :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
-  :custom
-  (org-roam-directory (file-truename org-roam-directory-param))
-  :config
-  (org-roam-setup)
-  :bind (("C-c n f" . org-roam-node-find)
-         ("C-c n r" . org-roam-node-random)
-           (:map org-mode-map
-            (("C-c n i" . org-roam-node-insert)
-             ("C-c n o" . org-id-get-create)
-             ("C-c n t" . org-roam-tag-add)
-             ("C-c n a" . org-roam-alias-add)
-             ("C-c n l" . org-roam-buffer-toggle)))))
-
-(map! :leader
-       (:prefix ("r" . "org-roam")
-        :desc "Find node" "f" #'org-roam-node-find
-        :desc "Get random node" "r" #' org-roam-node-random))
 
 (setq projectile-project-search-path projectile-project-search-path-param)
 
