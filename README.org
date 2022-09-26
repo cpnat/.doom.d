@@ -29,6 +29,8 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#files][Files]]
   - [[#autosave][Autosave]]
   - [[#markdown][Markdown]]
+- [[#calendar][Calendar]]
+  - [[#iso-week-numbers][ISO week numbers]]
 - [[#completion][Completion]]
   - [[#hunpell][Hunpell]]
   - [[#language-server-protocol][Language Server Protocol]]
@@ -49,6 +51,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#metals-language-server][Metals Language Server]]
 - [[#swift][Swift]]
   - [[#sourcekit-language-server][Sourcekit Language Server]]
+- [[#golang][Golang]]
 - [[#sql][SQL]]
   - [[#ejc-sql][EJC-SQL]]
 - [[#misc][Misc]]
@@ -76,7 +79,6 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 (setq user-full-name user-full-name-param
       user-mail-address user-mail-address-param)
 #+end_src
-
 
 * UI  
 
@@ -278,6 +280,25 @@ TODO: Create a function that dynamically sets the mode based upon file size.
 
 #+begin_src elisp
 ;;(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+#+end_src
+
+* Calendar
+
+** ISO week numbers
+
+Display ISO week numbers in calendar mode.
+
+#+begin_src elisp
+(copy-face font-lock-constant-face 'calendar-iso-week-face)
+(set-face-attribute 'calendar-iso-week-face nil
+                    :height 1)
+(setq calendar-intermonth-text
+      '(propertize
+        (format "%2d"
+                (car
+                 (calendar-iso-from-absolute
+                  (calendar-absolute-from-gregorian (list month day year)))))
+        'font-lock-face 'calendar-iso-week-face))
 #+end_src
 
 * Completion
@@ -656,6 +677,10 @@ Enable Apple Sourcekit LSP. Pre-requisites:-
 (use-package swift-mode
   :hook (swift-mode . (lambda () (lsp))))
 #+end_src
+
+* Golang
+
+Several packages need to be installed to support Doom's default Go configuration. See https://docs.doomemacs.org/latest/modules/lang/go/
 
 * SQL
 
