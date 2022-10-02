@@ -279,7 +279,7 @@ Use fundamental mode for markdown files to improve performance.
 TODO: Create a function that dynamically sets the mode based upon file size.
 
 #+begin_src elisp
-;;(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
 #+end_src
 
 * Calendar
@@ -577,6 +577,10 @@ Pyright is configured by Doom through ~init.el~. Pre-requisites (to be installed
 - pyright
 - pylint
 - flake8
+
+Use `lsp-workspace-folders-add` and `lsp-workspace-folders-remove` to configure the project roots.
+
+And addition https://github.com/alefpereira/pyenv-pyright is a nice plugin for setting the `pyrightconfig.json`
 
 ** Anaconda
 

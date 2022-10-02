@@ -91,7 +91,7 @@
 (setq auto-save-default t
       make-backup-files t)
 
-;;(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
 
 (copy-face font-lock-constant-face 'calendar-iso-week-face)
 (set-face-attribute 'calendar-iso-week-face nil
