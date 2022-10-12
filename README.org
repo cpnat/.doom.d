@@ -347,14 +347,19 @@ Hunspell (https://hunspell.github.io/) is used for spellchecking and prose compl
 Company mode with LSP support is used for code completion.
 
 #+begin_src elisp
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+;;(require 'company-lsp)
+;;(push 'company-lsp company-backends)
 #+end_src
 
 Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/ for a guide on enabling/disabling LSP features.
 
-#+begin_src
+#+begin_src elisp
 (setq lsp-lens-enable nil)
+#+end_src
+
+Increase the file watch theshold
+#+begin_src elisp
+(setq lsp-file-watch-threshold 10000)
 #+end_src
 
 * Org-mode

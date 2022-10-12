@@ -104,8 +104,12 @@
                   (calendar-absolute-from-gregorian (list month day year)))))
         'font-lock-face 'calendar-iso-week-face))
 
-(require 'company-lsp)
-(push 'company-lsp company-backends)
+;;(require 'company-lsp)
+;;(push 'company-lsp company-backends)
+
+(setq lsp-lens-enable nil)
+
+(setq lsp-file-watch-threshold 10000)
 
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
