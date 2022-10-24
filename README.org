@@ -9,6 +9,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 * Table of contents :TOC:
 - [[#elisp-scope][Elisp scope]]
 - [[#parameters][Parameters]]
+- [[#paths][Paths]]
 - [[#personal-details][Personal details]]
 - [[#ui][UI]]
   - [[#theme][Theme]]
@@ -38,6 +39,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#org][Org]]
   - [[#org-roam][Org-Roam]]
   - [[#org-present][Org Present]]
+  - [[#plotting][Plotting]]
 - [[#projects][Projects]]
   - [[#projectile][Projectile]]
   - [[#magit][Magit]]
@@ -71,6 +73,15 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 (require 'epa-file)
 (epa-file-enable)
 (load "~/.doom.d/parameters.el.gpg")
+#+end_src
+
+* Paths
+
+Set $MANPATH, $PATH and exec-path from shell, but only when executed in a GUI frame on OS X
+
+#+begin_src elisp
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 #+end_src
 
 * Personal details
@@ -422,6 +433,7 @@ Leader keymapping.
 (map! :leader
        (:prefix ("r" . "org-roam")
         :desc "Find node" "f" #'org-roam-node-find
+        :desc "Insert node" "i" #'org-roam-node-insert
         :desc "Get random node" "r" #' org-roam-node-random))
 #+end_src
 
@@ -518,9 +530,13 @@ Leader keymapping.
 
 #+end_src
 
-#+RESULTS:
-| my/org-present-prepare-slide |
+** Plotting
 
+Configuration for using gnuplot in org buffers
+
+#+begin_src
+(require 'gnuplot-mode)
+#+end_src
 * Projects
 
 ** Projectile
@@ -689,7 +705,7 @@ Enable Apple Sourcekit LSP. Pre-requisites:-
 
 * Golang
 
-Several packages need to be installed to support Doom's default Go configuration. See https://docs.doomemacs.org/latest/modules/lang/go/
+Several packages need to be installed to support Doom's default Go configuration, with the gopls language server. See https://docs.doomemacs.org/latest/modules/lang/go/ and https://wmanger.com/articles/go-on-doom-emacs/
 
 * SQL
 

@@ -4,6 +4,9 @@
 (epa-file-enable)
 (load "~/.doom.d/parameters.el.gpg")
 
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (setq user-full-name user-full-name-param
       user-mail-address user-mail-address-param)
 
@@ -140,6 +143,7 @@
 (map! :leader
        (:prefix ("r" . "org-roam")
         :desc "Find node" "f" #'org-roam-node-find
+        :desc "Insert node" "i" #'org-roam-node-insert
         :desc "Get random node" "r" #' org-roam-node-random))
 
 (use-package! websocket
