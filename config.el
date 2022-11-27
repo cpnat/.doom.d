@@ -232,9 +232,6 @@
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-(after! (treemacs projectile)
-  (treemacs-project-follow-mode 1))
-
 (setq doom-themes-treemacs-enable-variable-pitch nil)
 
 (use-package pyvenv

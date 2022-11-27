@@ -72,3 +72,7 @@
 (package! virtualenvwrapper)
 (package! visual-fill-column)
 (package! writeroom-mode)
+
+;;https://github.com/doomemacs/doomemacs/pull/6812
+(package! treemacs :pin "861418d9d11b205930bd4555a40b430b9dde9dd4")
+(package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")
