@@ -74,5 +74,5 @@
 (package! writeroom-mode)
 
 ;;https://github.com/doomemacs/doomemacs/pull/6812
-(package! treemacs :pin "861418d9d11b205930bd4555a40b430b9dde9dd4")
+(package! treemacs :pin "e4bb236bd5cd7c077c2207b33d2699485c405536")
 (package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")

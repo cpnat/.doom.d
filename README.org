@@ -64,12 +64,14 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 
 * Prerequisites
 
-Setup Emacs with native compilation of Elisp Bytecode to GCC Intermediate Representation 🚀 (Note: Doom defaults to Ahead of Time compile)
+Setup Emacs with native compilation of Elisp Bytecode to GCC Intermediate Representation 🚀 (Note: Doom defaults to Ahead of Time compile, but this can also be configure as Just In Time, with hot-swapping from Bytecode).
 
 https://emacsconf.org/2021/talks/native/
 
 ~brew install gcc --build-from-source --force~
+
 ~brew install gcc --build-from-source --force~
+
 ~brew install emacs-plus@28 --with-native-comp~
 
 * Elisp scope
@@ -734,6 +736,7 @@ Enable Apple Sourcekit LSP. Pre-requisites:-
 
 Several packages need to be installed to support Doom's default Go configuration, with the gopls language server. See https://docs.doomemacs.org/latest/modules/lang/go/ and https://wmanger.com/articles/go-on-doom-emacs/
 
+In addition, Delve should be installed for debugging https://github.com/go-delve/delve
 * SQL
 
 ** EJC-SQL
