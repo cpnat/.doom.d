@@ -56,6 +56,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#swift][Swift]]
   - [[#sourcekit-language-server][Sourcekit Language Server]]
 - [[#golang][Golang]]
+- [[#rust][Rust]]
 - [[#sql][SQL]]
   - [[#ejc-sql][EJC-SQL]]
 - [[#misc][Misc]]
@@ -737,6 +738,11 @@ Enable Apple Sourcekit LSP. Pre-requisites:-
 Several packages need to be installed to support Doom's default Go configuration, with the gopls language server. See https://docs.doomemacs.org/latest/modules/lang/go/ and https://wmanger.com/articles/go-on-doom-emacs/
 
 In addition, Delve should be installed for debugging https://github.com/go-delve/delve
+
+* Rust
+
+The Doom default Rust configuration can be referenced here https://docs.doomemacs.org/latest/modules/lang/rust/
+
 * SQL
 
 ** EJC-SQL
