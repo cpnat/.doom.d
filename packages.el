@@ -76,3 +76,6 @@
 ;;https://github.com/doomemacs/doomemacs/pull/6812
 (package! treemacs :pin "e4bb236bd5cd7c077c2207b33d2699485c405536")
 (package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")
+
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

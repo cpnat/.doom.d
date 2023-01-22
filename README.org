@@ -36,6 +36,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#completion][Completion]]
   - [[#hunpell][Hunpell]]
   - [[#language-server-protocol][Language Server Protocol]]
+  - [[#copilot][Copilot]]
 - [[#org-mode][Org-mode]]
   - [[#org][Org]]
   - [[#org-roam][Org-Roam]]
@@ -387,6 +388,40 @@ Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.
 Increase the file watch theshold
 #+begin_src elisp
 (setq lsp-file-watch-threshold 10000)
+#+end_src
+
+** Copilot
+
+Childframe enabled in `packages.el` to prevent overlay conflict
+
+#+begin_src elisp
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map copilot-completion-map
+         ("<tab>" . 'copilot-accept-completion)
+         ("TAB" . 'copilot-accept-completion)))
+
+;; enable completion in insert mode
+(customize-set-variable 'copilot-enable-predicates '(evil-insert-state-p))
+
+; complete by copilot first, then company-mode
+(defun my-tab ()
+  (interactive)
+  (or (copilot-accept-completion)
+      (company-indent-or-complete-common nil)))
+
+; modify company-mode behaviors
+(with-eval-after-load 'company
+  ; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends)
+  ; enable tab completion
+  (define-key company-mode-map (kbd "<tab>") 'my-tab)
+  (define-key company-mode-map (kbd "TAB") 'my-tab)
+  (define-key company-active-map (kbd "<tab>") 'my-tab)
+  (define-key company-active-map (kbd "TAB") 'my-tab))
 #+end_src
 
 * Org-mode
