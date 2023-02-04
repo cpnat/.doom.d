@@ -20,10 +20,10 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#line-numbers][Line numbers]]
   - [[#splash][Splash]]
   - [[#cursor][Cursor]]
+  - [[#multiple-cursors][Multiple cursors]]
 - [[#navigation][Navigation]]
   - [[#snipe][Snipe]]
   - [[#avy][Avy]]
-  - [[#multiple-cursors][Multiple cursors]]
   - [[#treemacs][Treemacs]]
   - [[#external-applications][External applications]]
 - [[#terminal][Terminal]]
@@ -172,6 +172,10 @@ Flash the cursor following vertical or horizontal movement to increase visibilit
 (setq beacon-dont-blink-commands nil)
 #+end_src
 
+** Multiple cursors
+
+A combination of evil-mc https://github.com/gabesoft/evil-mc and evil-multiedit https://github.com/hlissner/evil-multiedit can be used where multiple cursors are required
+
 * Navigation
 
 ** Snipe
@@ -208,15 +212,6 @@ avy (https://github.com/abo-abo/avy) is used for larger movements across visible
         :desc "Avy goto" "SPC" #'avy-goto-char-2)
 
 (setq avy-all-windows 'all-frames)
-#+end_src
-
-** Multiple cursors
-
-Enable multiple cursors (flakey with EVIL/doom).
-
-#+begin_src elisp
-(require 'multiple-cursors)
-(global-set-key (kbd "C-c m c") 'mc/edit-lines)
 #+end_src
 
 ** Treemacs

@@ -47,9 +47,6 @@
 
 (setq avy-all-windows 'all-frames)
 
-(require 'multiple-cursors)
-(global-set-key (kbd "C-c m c") 'mc/edit-lines)
-
 (setq treemacs-is-never-other-window nil)
 
 (defun application-activate (application-name)

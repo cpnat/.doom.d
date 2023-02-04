@@ -61,7 +61,6 @@
 (package! lsp-python-ms)
 (package! lsp-sourcekit)
 (package! multi-vterm)
-(package! multiple-cursors)
 (package! pyenv-mode)
 (package! org-bullets)
 (package! org-present)
