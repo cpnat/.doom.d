@@ -14,6 +14,8 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+
+
 (doom! :input
        ;;chinese
        ;;japanese
@@ -188,3 +190,10 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+
+;; Doom no longer compiles AOT (ahead-of-time) by default. This will be implemented as a
+;; flag in the future, but for now it is enabled by the following:
+;; https://github.com/doomemacs/doomemacs/issues/6811
+(setq native-comp-deferred-compilation nil)
+(after! (doom-packages straight)
+  (setq straight--native-comp-available t))
