@@ -12,6 +12,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#parameters][Parameters]]
 - [[#paths][Paths]]
 - [[#personal-details][Personal details]]
+- [[#bind-alt-meta-and-super][Bind alt, meta and super]]
 - [[#ui][UI]]
   - [[#theme][Theme]]
   - [[#fonts][Fonts]]
@@ -71,9 +72,6 @@ Setup Emacs with native compilation of Elisp Bytecode to GCC Intermediate Repres
 https://emacsconf.org/2021/talks/native/
 
 ~brew install gcc --build-from-source --force~
-
-~brew install gcc --build-from-source --force~
-
 ~brew install emacs-plus@28 --with-native-comp~
 
 * Elisp scope
@@ -108,7 +106,15 @@ Set $MANPATH, $PATH and exec-path from shell, but only when executed in a GUI fr
       user-mail-address user-mail-address-param)
 #+end_src
 
-* UI  
+* Bind alt, meta and super
+#+begin_src elisp
+(cond (IS-MAC
+       (setq mac-command-modifier      'meta
+             mac-option-modifier       'alt
+             mac-right-option-modifier 'super)))
+#+end_src
+
+* UI
 
 ** Theme
 
@@ -302,7 +308,7 @@ Use fundamental mode for markdown files to improve performance.
 TODO: Create a function that dynamically sets the mode based upon file size.
 
 #+begin_src elisp
-(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+;; (add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
 #+end_src
 
 * Calendar
@@ -386,37 +392,30 @@ Increase the file watch theshold
 #+end_src
 
 ** Copilot
+Some of this setup inspired by https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
 
 Childframe enabled in `packages.el` to prevent overlay conflict
 
 #+begin_src elisp
-;; accept completion from copilot and fallback to company
+
+;; accept completion from copilot
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
-         ("C-<tab>" . 'copilot-accept-completion-by-word)
-         :map copilot-completion-map
-         ("<tab>" . 'copilot-accept-completion)
-         ("TAB" . 'copilot-accept-completion)))
+  :hook (prog-mode . copilot-mode))
 
 ;; enable completion in insert mode
 (customize-set-variable 'copilot-enable-predicates '(evil-insert-state-p))
 
-; complete by copilot first, then company-mode
-(defun my-tab ()
-  (interactive)
-  (or (copilot-accept-completion)
-      (company-indent-or-complete-common nil)))
-
 ; modify company-mode behaviors
 (with-eval-after-load 'company
-  ; disable inline previews
-  (delq 'company-preview-if-just-one-frontend company-frontends)
-  ; enable tab completion
-  (define-key company-mode-map (kbd "<tab>") 'my-tab)
-  (define-key company-mode-map (kbd "TAB") 'my-tab)
-  (define-key company-active-map (kbd "<tab>") 'my-tab)
-  (define-key company-active-map (kbd "TAB") 'my-tab))
+  (delq 'company-preview-if-just-one-frontend company-frontends))
+
+
+; bind other useful copilot commands
+(map! "A-<right>" #'copilot-accept-completion
+      "A-<up>" #'copilot-accept-completion-by-word
+      "A-<down>" #'copilot-accept-completion-by-line
+      "A-<left>" #'copilot-next-completion)
+
 #+end_src
 
 * Org-mode

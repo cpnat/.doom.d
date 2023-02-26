@@ -10,6 +10,11 @@
 (setq user-full-name user-full-name-param
       user-mail-address user-mail-address-param)
 
+(cond (IS-MAC
+       (setq mac-command-modifier      'meta
+             mac-option-modifier       'alt
+             mac-right-option-modifier 'super)))
+
 (setq doom-theme 'doom-nord)
 
 (setq doom-font (font-spec :family "Fira Code" :style "Retina" :size 14 :height 1.0)
@@ -91,7 +96,7 @@
 (setq auto-save-default t
       make-backup-files t)
 
-(add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
+;; (add-to-list 'auto-mode-alist '("\\.md\\'" . fundamental-mode))
 
 (copy-face font-lock-constant-face 'calendar-iso-week-face)
 (set-face-attribute 'calendar-iso-week-face nil
@@ -111,33 +116,23 @@
 
 (setq lsp-file-watch-threshold 10000)
 
-;; accept completion from copilot and fallback to company
+;; accept completion from copilot
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
-         ("C-<tab>" . 'copilot-accept-completion-by-word)
-         :map copilot-completion-map
-         ("<tab>" . 'copilot-accept-completion)
-         ("TAB" . 'copilot-accept-completion)))
+  :hook (prog-mode . copilot-mode))
 
 ;; enable completion in insert mode
 (customize-set-variable 'copilot-enable-predicates '(evil-insert-state-p))
 
-; complete by copilot first, then company-mode
-(defun my-tab ()
-  (interactive)
-  (or (copilot-accept-completion)
-      (company-indent-or-complete-common nil)))
-
 ; modify company-mode behaviors
 (with-eval-after-load 'company
-  ; disable inline previews
-  (delq 'company-preview-if-just-one-frontend company-frontends)
-  ; enable tab completion
-  (define-key company-mode-map (kbd "<tab>") 'my-tab)
-  (define-key company-mode-map (kbd "TAB") 'my-tab)
-  (define-key company-active-map (kbd "<tab>") 'my-tab)
-  (define-key company-active-map (kbd "TAB") 'my-tab))
+  (delq 'company-preview-if-just-one-frontend company-frontends))
+
+
+; bind other useful copilot commands
+(map! "A-<right>" #'copilot-accept-completion
+      "A-<up>" #'copilot-accept-completion-by-word
+      "A-<down>" #'copilot-accept-completion-by-line
+      "A-<left>" #'copilot-next-completion)
 
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
