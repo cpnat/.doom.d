@@ -53,6 +53,10 @@
 (package! beacon)
 (package! chat-gtp
   :recipe (:host github :repo "emacs-openai/chatgpt"))
+(package! codegpt
+  :recipe (:host github :repo "emacs-openai/codegpt"))
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 (package! company-lsp)
 (package! ejc-sql)
 (package! evil-snipe)
@@ -79,9 +83,6 @@
 ;;https://github.com/doomemacs/doomemacs/pull/6812
 (package! treemacs :pin "e4bb236bd5cd7c077c2207b33d2699485c405536")
 (package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")
-
-(package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 ;; https://github.com/doomemacs/doomemacs/issues/7078#issuecomment-1428244104
 (package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")

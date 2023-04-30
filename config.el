@@ -134,7 +134,7 @@
       "A-<down>" #'copilot-accept-completion-by-line
       "A-<left>" #'copilot-next-completion)
 
-(setq openai-key chat-gpt-secret-param)
+(setq openai-key openai-key-param)
 
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)

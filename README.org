@@ -423,7 +423,7 @@ Childframe enabled in `packages.el` to prevent overlay conflict
 M-x chatgpt
 
 #+begin_src elisp
-(setq openai-key chat-gpt-secret-param)
+(setq openai-key openai-key-param)
 #+end_src
 
 * Org-mode
