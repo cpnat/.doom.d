@@ -38,6 +38,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#hunpell][Hunpell]]
   - [[#language-server-protocol][Language Server Protocol]]
   - [[#copilot][Copilot]]
+  - [[#chat-gpt][Chat GPT]]
 - [[#org-mode][Org-mode]]
   - [[#org][Org]]
   - [[#org-roam][Org-Roam]]
@@ -383,7 +384,7 @@ Company mode with LSP support is used for code completion.
 Disable lenses in LSP mode to improve performance. See https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/ for a guide on enabling/disabling LSP features.
 
 #+begin_src elisp
-(setq lsp-lens-enable nil)
+;; (setq lsp-lens-enable nil)
 #+end_src
 
 Increase the file watch theshold
@@ -416,6 +417,13 @@ Childframe enabled in `packages.el` to prevent overlay conflict
       "A-<down>" #'copilot-accept-completion-by-line
       "A-<left>" #'copilot-next-completion)
 
+#+end_src
+
+** Chat GPT
+M-x chatgpt
+
+#+begin_src elisp
+(setq openai-key chat-gpt-secret-param)
 #+end_src
 
 * Org-mode

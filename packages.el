@@ -51,6 +51,8 @@
 
 (package! ack)
 (package! beacon)
+(package! chat-gtp
+  :recipe (:host github :repo "emacs-openai/chatgpt"))
 (package! company-lsp)
 (package! ejc-sql)
 (package! evil-snipe)
@@ -61,6 +63,8 @@
 (package! lsp-python-ms)
 (package! lsp-sourcekit)
 (package! multi-vterm)
+(package! openai
+  :recipe (:host github :repo "emacs-openai/openai"))
 (package! pyenv-mode)
 (package! org-bullets)
 (package! org-present)

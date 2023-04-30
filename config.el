@@ -112,7 +112,7 @@
 ;;(require 'company-lsp)
 ;;(push 'company-lsp company-backends)
 
-(setq lsp-lens-enable nil)
+;; (setq lsp-lens-enable nil)
 
 (setq lsp-file-watch-threshold 10000)
 
@@ -133,6 +133,8 @@
       "A-<up>" #'copilot-accept-completion-by-word
       "A-<down>" #'copilot-accept-completion-by-line
       "A-<left>" #'copilot-next-completion)
+
+(setq openai-key chat-gpt-secret-param)
 
 (setq org-directory org-directory-param)
 (setq org-support-shift-select t)
