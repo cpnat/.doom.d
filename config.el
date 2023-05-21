@@ -2,7 +2,8 @@
 
 (require 'epa-file)
 (epa-file-enable)
-(load "~/.doom.d/parameters.el.gpg")
+;;(load "~/.doom.d/parameters.el.gpg")
+(load "~/.config/doom/parameters.el")
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
@@ -23,7 +24,7 @@
 ;;(setq doom-font (font-spec :family "Source Code Pro" :style "Regular" :size 14))
 ;;      doom-variable-pitch-font (font-spec :family "ETBembo" :style "RomanLF" :size 18 :height 1.0))
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
