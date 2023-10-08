@@ -81,9 +81,9 @@
 (package! writeroom-mode)
 
 ;;https://github.com/doomemacs/doomemacs/pull/6812
-(package! treemacs :pin "e4bb236bd5cd7c077c2207b33d2699485c405536")
-(package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")
+;;(package! treemacs :pin "e4bb236bd5cd7c077c2207b33d2699485c405536")
+;;(package! lsp-treemacs :pin "f7ae97560cfbc88e781a2d5b9253dace7175b918")
 
 ;; https://github.com/doomemacs/doomemacs/issues/7078#issuecomment-1428244104
-(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
-(package! with-editor :pin "391e76a256aeec6b9e4cbd733088f30c677d965b")
+;;(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
+;;(package! with-editor :pin "391e76a256aeec6b9e4cbd733088f30c677d965b")
