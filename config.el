@@ -5,6 +5,9 @@
 ;;(load "~/.doom.d/parameters.el.gpg")
 (load "~/.config/doom/parameters.el")
 
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
+
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
@@ -271,6 +274,11 @@
       (pyenv-mode-unset))))
 
 (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+
+(use-package dap-mode)
+(use-package dap-python)
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
 
 ;; CONDA
 ;;(require 'conda)

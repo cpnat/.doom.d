@@ -10,6 +10,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#prerequisites][Prerequisites]]
 - [[#elisp-scope][Elisp scope]]
 - [[#parameters][Parameters]]
+- [[#paths][Shell]]
 - [[#paths][Paths]]
 - [[#personal-details][Personal details]]
 - [[#bind-alt-meta-and-super][Bind alt, meta and super]]
@@ -51,6 +52,8 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#python][Python]]
   - [[#pyenv][Pyenv]]
   - [[#pyright-language-server][Pyright Language Server]]
+  - [[#debug-adapter-protocol][Debug Adapter Protocol]]
+    
   - [[#anaconda][Anaconda]]
 - [[#java][Java]]
   - [[#eclipse-language-server][Eclipse Language Server]]
@@ -90,6 +93,15 @@ Elisp uses dynamic scoping by default, however this comes with a performance pen
 (epa-file-enable)
 ;;(load "~/.doom.d/parameters.el.gpg")
 (load "~/.config/doom/parameters.el")
+#+end_src
+
+* Shell
+
+  Fish (and other non-POSIX shells) are known to inject garbage output into some of the child processes that Emacs spawns. Many Emacs packages/utilities will choke on this output, causing unpredictable issues. To get around this, set the default shell as bash, and configure the terminal emulator to use Fish.
+
+#+begin_src elisp
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
 #+end_src
 
 * Paths
@@ -670,6 +682,18 @@ Pyright is configured by Doom through ~init.el~. Pre-requisites (to be installed
 Use `lsp-workspace-folders-add` and `lsp-workspace-folders-remove` to configure the project roots.
 
 And addition https://github.com/alefpereira/pyenv-pyright is a nice plugin for setting the `pyrightconfig.json`
+
+** Debug Adapter Protocol
+
+DAP mode uses ~ptvsd~ by default, instead use ~debugpy~
+
+#+begin_src elisp
+
+(use-package dap-mode)
+(use-package dap-python)
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
+#+end_src
 
 ** Anaconda
 
