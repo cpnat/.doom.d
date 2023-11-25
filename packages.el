@@ -62,6 +62,7 @@
 (package! evil-snipe)
 (package! exec-path-from-shell)
 (package! git-gutter)
+(package! graphql-mode)
 (package! gnuplot-mode)
 (package! lsp-java)
 (package! lsp-python-ms)
