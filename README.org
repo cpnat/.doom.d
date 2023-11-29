@@ -10,7 +10,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 - [[#prerequisites][Prerequisites]]
 - [[#elisp-scope][Elisp scope]]
 - [[#parameters][Parameters]]
-- [[#paths][Shell]]
+- [[#shell][Shell]]
 - [[#paths][Paths]]
 - [[#personal-details][Personal details]]
 - [[#bind-alt-meta-and-super][Bind alt, meta and super]]
@@ -53,7 +53,6 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#pyenv][Pyenv]]
   - [[#pyright-language-server][Pyright Language Server]]
   - [[#debug-adapter-protocol][Debug Adapter Protocol]]
-    
   - [[#anaconda][Anaconda]]
 - [[#java][Java]]
   - [[#eclipse-language-server][Eclipse Language Server]]
@@ -469,6 +468,11 @@ Replace '...'
 
 #+begin_src elisp
 (setq org-ellipsis " ▼")
+#+end_src
+
+Startup folded
+#+begin_src elisp
+(setq org-startup-folded t)
 #+end_src
 
 ** Org-Roam

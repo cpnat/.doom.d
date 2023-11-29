@@ -150,6 +150,8 @@
 
 (setq org-ellipsis " ▼")
 
+(setq org-startup-folded t)
+
 (use-package org-roam
   :after org
   :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
