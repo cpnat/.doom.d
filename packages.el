@@ -64,6 +64,7 @@
 (package! git-gutter)
 (package! graphql-mode)
 (package! gnuplot-mode)
+(package! jupyter)
 (package! lsp-java)
 (package! lsp-python-ms)
 (package! lsp-sourcekit)

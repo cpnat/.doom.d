@@ -42,6 +42,7 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#chat-gpt][Chat GPT]]
 - [[#org-mode][Org-mode]]
   - [[#org][Org]]
+  - [[#org-babble][Org-Babble]]
   - [[#org-roam][Org-Roam]]
   - [[#org-present][Org Present]]
   - [[#plotting][Plotting]]
@@ -53,7 +54,6 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#pyenv][Pyenv]]
   - [[#pyright-language-server][Pyright Language Server]]
   - [[#debug-adapter-protocol][Debug Adapter Protocol]]
-  - [[#anaconda][Anaconda]]
 - [[#java][Java]]
   - [[#eclipse-language-server][Eclipse Language Server]]
 - [[#scala][Scala]]
@@ -475,6 +475,26 @@ Startup folded
 (setq org-startup-folded t)
 #+end_src
 
+** Org-Babble
+
+https://github.com/emacs-jupyter/jupyter
+https://sqrtminusone.xyz/posts/2021-05-01-org-python/
+
+Remove Conflicting advice config from Doom
+#+begin_src elisp
+(advice-remove #'org-babel-do-load-languages #'ignore)
+#+end_src
+
+#+begin_src elisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t) ;; Other languages
+   (shell . t)
+   ;; Python & Jupyter
+   (python . t)
+   (jupyter . t)))
+#+end_src
+
 ** Org-Roam
 
 Configuration for org-roam.
@@ -607,6 +627,7 @@ Configuration for using gnuplot in org buffers
 #+begin_src
 (require 'gnuplot-mode)
 #+end_src
+
 * Projects
 
 ** Projectile
@@ -637,7 +658,6 @@ Use monospaced font in Treemacs
 #+begin_src elisp
 (setq doom-themes-treemacs-enable-variable-pitch nil)
 #+end_src
-
 
 * Python
 
@@ -674,7 +694,6 @@ virtualenvs.in-project = false
 virtualenvs.path = pyenv-directory-param
 #+end_src
 
-
 ** Pyright Language Server
 
 Pyright is configured by Doom through ~init.el~. Pre-requisites (to be installed in the venv associated with the project):-
@@ -697,20 +716,6 @@ DAP mode uses ~ptvsd~ by default, instead use ~debugpy~
 (use-package dap-python)
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
-#+end_src
-
-** Anaconda
-
-Deprecated Anaconda configuration.
-
-#+begin_src elisp
-;; CONDA
-;;(require 'conda)
-;;(setq conda-env-home-directory "$CASKROOM-PATH-PARAM/miniconda/base/condabin/conda")
-;;(custom-set-variables
-;; '(conda-anaconda-home "$CASKROOM-PATH-PARAM/miniconda/base/"))
-;;(conda-env-initialize-interactive-shells)
-;;(conda-env-initialize-eshell)
 #+end_src
 
 * Java
@@ -808,7 +813,6 @@ In addition, Delve should be installed for debugging https://github.com/go-delve
 * Rust
 
 The Doom default Rust configuration can be referenced here https://docs.doomemacs.org/latest/modules/lang/rust/ and a nice guide can be found here https://robert.kra.hn/posts/rust-emacs-setup/
-
 
 * SQL
 

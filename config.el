@@ -152,6 +152,16 @@
 
 (setq org-startup-folded t)
 
+(advice-remove #'org-babel-do-load-languages #'ignore)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t) ;; Other languages
+   (shell . t)
+   ;; Python & Jupyter
+   (python . t)
+   (jupyter . t)))
+
 (use-package org-roam
   :after org
   :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
@@ -281,14 +291,6 @@
 (use-package dap-python)
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
-
-;; CONDA
-;;(require 'conda)
-;;(setq conda-env-home-directory "$CASKROOM-PATH-PARAM/miniconda/base/condabin/conda")
-;;(custom-set-variables
-;; '(conda-anaconda-home "$CASKROOM-PATH-PARAM/miniconda/base/"))
-;;(conda-env-initialize-interactive-shells)
-;;(conda-env-initialize-eshell)
 
 (use-package lsp-java
 :ensure t
