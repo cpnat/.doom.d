@@ -27,7 +27,6 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
   - [[#snipe][Snipe]]
   - [[#avy][Avy]]
   - [[#treemacs][Treemacs]]
-  - [[#external-applications][External applications]]
 - [[#terminal][Terminal]]
   - [[#multi-vterm][Multi-vterm]]
 - [[#files][Files]]
@@ -196,7 +195,6 @@ Flash the cursor following vertical or horizontal movement to increase visibilit
 A combination of evil-mc https://github.com/gabesoft/evil-mc and evil-multiedit https://github.com/hlissner/evil-multiedit can be used where multiple cursors are required
 
 * Navigation
-
 ** Snipe
 
 Enable evil-snipe for quick horizontal movement.
@@ -239,59 +237,6 @@ Allow treemacs to be selected as other-window, for quick switching.
 
 #+begin_src elisp
 (setq treemacs-is-never-other-window nil)
-#+end_src
-
-** External applications
-
-Launch other applications with AppleScript (workaround for issues with emacs capturing commands intended for the OS).
-
-#+begin_src elisp
-(defun application-activate (application-name)
-
-(interactive)
-
-  (let ((script (format "tell application \"%s\" \n activate \n end tell" application-name)))
-  (start-process "application-activate" nil "osascript" "-e" script)))
-#+end_src
-
-#+begin_src elisp
-(defun firefox-activate ()
-(interactive)
-(application-activate "Firefox"))
-
-(global-set-key (kbd "M-s-2") 'firefox-activate)
-#+end_src
-
-#+begin_src elisp
-(defun pycharm-activate ()
-(interactive)
-(application-activate "PyCharm"))
-
-(global-set-key (kbd "M-s-3") 'pycharm-activate)
-#+end_src
-
-#+begin_src elisp
-(defun slack-activate ()
-(interactive)
-(application-activate "Slack"))
-
-(global-set-key (kbd "M-s-4") 'slack-activate)
-#+end_src
-
-#+begin_src elisp
-(defun calendar-activate ()
-(interactive)
-(application-activate "Calendar"))
-
-(global-set-key (kbd "M-s-5") 'calendar-activate)
-#+end_src
-
-#+begin_src elisp
-(defun spotify-activate ()
-(interactive)
-(application-activate "Spotify"))
-
-(global-set-key (kbd "M-s-6") 'spotify-activate)
 #+end_src
 
 * Terminal
