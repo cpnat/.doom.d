@@ -125,6 +125,8 @@
    (python . t)
    (jupyter . t)))
 
+(add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+
 (use-package org-roam
   :after org
   :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
