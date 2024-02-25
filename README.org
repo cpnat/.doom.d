@@ -420,6 +420,10 @@ Startup folded
 (setq org-startup-folded t)
 #+end_src
 
+#+begin_src elisp
+(setq org-image-actual-width 800)
+#+end_src
+
 ** Org-Babble
 
 https://github.com/emacs-jupyter/jupyter

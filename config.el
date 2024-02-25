@@ -115,6 +115,8 @@
 
 (setq org-startup-folded t)
 
+(setq org-image-actual-width 800)
+
 (advice-remove #'org-babel-do-load-languages #'ignore)
 
 (org-babel-do-load-languages
