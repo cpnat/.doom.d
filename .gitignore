@@ -1,3 +1,4 @@
 *.asc
 *.gpg
 parameters.el
+custom.el

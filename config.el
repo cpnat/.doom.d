@@ -19,7 +19,7 @@
              mac-option-modifier       'alt
              mac-right-option-modifier 'super)))
 
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-nord-light)
 
 (setq doom-font (font-spec :family "Fira Code" :style "Retina" :size 14 :height 1.0)
       doom-big-font (font-spec :family "Fira Code" :style "Retina" :size 28 :height 1.0))

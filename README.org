@@ -131,7 +131,7 @@ Set $MANPATH, $PATH and exec-path from shell, but only when executed in a GUI fr
 ** Theme
 
 #+begin_src elisp
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-nord-light)
 #+end_src
 
 ** Fonts
