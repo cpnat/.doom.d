@@ -7,7 +7,6 @@
 (setq projectile-project-search-path-param "")
 (setq pyenv-directory-param "")
 (setq java-home-param "")
-(setq lsp-java-java-path-param "")
 (setq lsp-sourcekit-executable-param "")
 (setq ejc-connection-name-param "")
 (setq ejc-dependencies-param "")

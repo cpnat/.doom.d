@@ -673,7 +673,6 @@ DAP mode uses ~ptvsd~ by default, instead use ~debugpy~
 #+end_src
 
 * Java
-
 ** Eclipse Language Server
 
 Enable Eclipse LSP. Pre-requisites:-
@@ -686,9 +685,6 @@ Enable Eclipse LSP. Pre-requisites:-
 :config (add-hook 'java-mode-hook 'lsp))
 
 (setenv "JAVA_HOME" java-home-param)
-(setq lsp-java-java-path lsp-java-java-path-param)
-#+end_src
-
 * Scala
 
 ** Metals Language Server

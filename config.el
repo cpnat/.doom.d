@@ -259,13 +259,6 @@
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
 
-(use-package lsp-java
-:ensure t
-:config (add-hook 'java-mode-hook 'lsp))
-
-(setenv "JAVA_HOME" java-home-param)
-(setq lsp-java-java-path lsp-java-java-path-param)
-
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$")
