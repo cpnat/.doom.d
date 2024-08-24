@@ -685,6 +685,7 @@ Enable Eclipse LSP. Pre-requisites:-
 :config (add-hook 'java-mode-hook 'lsp))
 
 (setenv "JAVA_HOME" java-home-param)
+
 * Scala
 
 ** Metals Language Server
