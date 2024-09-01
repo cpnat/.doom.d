@@ -8,6 +8,9 @@ Additionally, packages are managed in ~packages.el~ and some Doom specific initi
 
 * Table of contents :TOC:
 - [[#prerequisites][Prerequisites]]
+- [[#known-issues][Known issues]]
+  - [[#too-many-files-open-on-native-comp][Too many files open on native comp]]
+  - [[#doom-upgrade-originmelpa-does-not-exist][doom upgrade: origin/melpa does not exist]]
 - [[#elisp-scope][Elisp scope]]
 - [[#parameters][Parameters]]
 - [[#shell][Shell]]
@@ -75,6 +78,25 @@ https://emacsconf.org/2021/talks/native/
 
 ~brew install gcc --build-from-source --force~
 ~brew install emacs-plus@28 --with-native-comp~
+
+* Known issues
+
+** Too many files open on native comp
+
+By default, macOS limits processes to only opening 256 files at a time. You can temporarily raise this limit in your current shell by running:
+
+~ulimit -n 1024~
+
+https://discourse.doomemacs.org/t/fix-for-doom-build-too-many-open-files-on-native-comp/2650
+
+
+** doom upgrade: origin/melpa does not exist
+
+Nuke straight and start clean:
+
+~rm -rf $EMACSDIR/.local/straight/~
+
+https://github.com/doomemacs/doomemacs/issues/8003
 
 * Elisp scope
 
