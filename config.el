@@ -5,11 +5,12 @@
 ;;(load "~/.doom.d/parameters.el.gpg")
 (load "~/.config/doom/parameters.el")
 
-(setq shell-file-name (executable-find "bash"))
-(setq-default vterm-shell (executable-find "fish"))
-
+(setq shell-file-name (executable-find "fish"))
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
+
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
 
 (setq user-full-name user-full-name-param
       user-mail-address user-mail-address-param)
@@ -333,3 +334,12 @@
             (downcase-region start (1+ start)))
         (replace-regexp "\\([A-Z]\\)" "_\\1" nil (1+ start) end)
         (downcase-region start (cdr (bounds-of-thing-at-point 'symbol)))))))
+
+(defun yank-path-to-clipboard ()
+  "Get the PATH environment variable and yank it to the clipboard."
+  (interactive)
+  (let ((path (getenv "PATH")))
+    (when path
+      ;; Copy PATH to the clipboard
+      (kill-new path)
+      (message "PATH yanked to clipboard"))))

@@ -71,6 +71,7 @@
 (package! openai
   :recipe (:host github :repo "emacs-openai/openai"))
 (package! pyenv-mode)
+(package! orderless)
 (package! org-bullets)
 (package! org-present)
 (package! org-roam)
