@@ -124,9 +124,8 @@
  'org-babel-load-languages
  '((emacs-lisp . t) ;; Other languages
    (shell . t)
-   ;; Python & Jupyter
-   (python . t)
-   (jupyter . t)))
+   ;; Python
+   (python . t)))
 
 (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 

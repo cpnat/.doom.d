@@ -463,9 +463,8 @@ Remove conflicting advice config from Doom
  'org-babel-load-languages
  '((emacs-lisp . t) ;; Other languages
    (shell . t)
-   ;; Python & Jupyter
-   (python . t)
-   (jupyter . t)))
+   ;; Python
+   (python . t)))
 #+end_src
 
 Display inline images from Babel blocks
